@@ -1,19 +1,12 @@
-//  Import the HTTP node module 
-const http = require('http');
+const express = require('express');
+const path = require('path');
+const app = express();
 
-// Create the HTTp Sever
-const server = http.createServer((req, res) => {
-
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-
-    res.write('<h1>Hello, Node.js HTTp Server!<h1>');
-    res.end();
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'))
 });
 
-// Specify the port to listen on
 const port = 3000;
-
-// Start the server
-server.listen(port, () => {
-    console.log(`Node.js HTTP server is running on port ${port}`)
-});
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+})
