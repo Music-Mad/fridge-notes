@@ -9,10 +9,10 @@
 
 <body>
     <h1> Hello, World! </h1>
-    <form>
-        <label for="animal">What is your favorite animal?</label>
-        <input type="text" id="animal" name="animal">
-        <button>Save</button>
+    <form action="/room-code" method="POST">
+        <label for="roomCode">Room Code:</label>
+        <input type="text" id="roomCode" name="roomCode" required>
+        <button type="submit">Submit</button>
     </form>
 </body>
 
