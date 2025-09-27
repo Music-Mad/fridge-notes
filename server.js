@@ -6,14 +6,9 @@ const app = express();
 
 
 app.use(express.urlencoded({ extended: true}));
-app.use(express.static('public'));
+app.use(express.static('view'));
 
 app.use('/', codeRoutes);
-
-//serve html page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'view', 'index.html'))
-});
 
 
 
