@@ -21,12 +21,10 @@ function createDbConnection() {
 
 function createTable(db) {
   db.exec(`
-  CREATE TABLE sharks
+  CREATE TABLE codes
   (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    name   VARCHAR(50) NOT NULL,
-    color   VARCHAR(50) NOT NULL,
-    weight INTEGER NOT NULL
+    code INTEGER PRIMARY KEY,
+    name   VARCHAR(50) NOT NULL
   );
 `);
 }

@@ -1,7 +1,7 @@
 //  IMPORTS 
 const express = require('express');
 const path = require('path');
-const codeRoutes = require('./routes/codes');
+const codeRoutes = require('./routes/codes.js');
 const app = express();
 
 
