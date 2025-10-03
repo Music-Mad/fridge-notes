@@ -6,23 +6,8 @@ router.post('/room-code', (req, res) => {
     const code = req.body.roomCode; // Get email from form data
     
     // You can process the email here (save to database, send email, etc.)
-    db.run(`
-        INSERT INTO codes (code, name) VALUES (?, ?)`, [code, "testname"], function (error) {
-            if (error) {
-                console.error(error.message);
-            }
-            console.log(`Inserted a row with code: ${code}`);
-        }
-    );
-    // Send response back to user
-    let data = [];
-    db.each(`SELECT * FROM codes`, (error, row) => {
-        if (error) {
-            throw new Error(error.message);
-        }
-
-        data.push(row);
-    });
+    info = db.prepare(`INSERT INTO codes (code, name) VALUES (?, ?)`).run(code, 'testname');
+    console.log(info.lastInsertRowid);
  
     res.end();
 });
