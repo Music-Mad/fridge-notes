@@ -3,6 +3,7 @@ const filepath = './models/test.db';
 const Database = require('better-sqlite3');
 
 function createDbConnection() {
+    //check if db file already exists
     if (fs.existsSync(filepath)) {
         return new Database(filepath, {verbose: console.log});
     }
@@ -15,12 +16,12 @@ function createDbConnection() {
 
 function createTable(db) {
   info = db.prepare(`
-    CREATE TABLE codes
+    CREATE TABLE rooms
     (
       code INTEGER PRIMARY KEY,
-      name   VARCHAR(50) NOT NULL
+      username   VARCHAR(50) NOT NULL
     );
-  ]`).run();
+  `).run();
 }
 
 module.exports = createDbConnection();

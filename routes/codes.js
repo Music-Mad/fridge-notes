@@ -3,11 +3,18 @@ const router = express.Router();
 const db = require('../db.js');
 
 router.post('/room-code', (req, res) => {
-    const code = req.body.roomCode; // Get email from form data
+    const code = req.body.roomCode; 
+    const username = req.body.username;
+
+    //If room does not exist, create one
+    roomData = db.prepare(`SELECT * FROM rooms WHERE code = ?`).get(code);
+    if (typeof roomData == 'undefined') {
+        info = db.prepare(`INSERT INTO rooms (code, username) VALUES (?, ?)`).run(code, username);
+        data = db.prepare(`SELECT * FROM rooms`).all();
+        res.send(data);
+    }
     
-    // You can process the email here (save to database, send email, etc.)
-    info = db.prepare(`INSERT INTO codes (code, name) VALUES (?, ?)`).run(code, 'testname');
-    console.log(info.lastInsertRowid);
+
  
     res.end();
 });
