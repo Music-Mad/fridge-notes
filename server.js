@@ -1,15 +1,18 @@
 //  IMPORTS 
 const express = require('express');
 const path = require('path');
-const codeRoutes = require('./routes/codes.js');
 const app = express();
 
 
 app.use(express.urlencoded({ extended: true}));
-app.use(express.static('view'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', codeRoutes);
+app.use('/api', require('./routes/codes.js'));
+app.use('/', require('./routes/board.js'));
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
 
 
 //start server
