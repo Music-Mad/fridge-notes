@@ -1,17 +1,18 @@
-const express = require('express');
-const path = require('path');
-const db = require('../db/database.js');
+import express from 'express';
+import path from 'path';
 const router = express.Router();
 
-router.get('/board', (req, res) => {
+//Get dirname 
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+router.get('/board', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'views', 'board.html'), (err) => {
         if (err) {
             console.error(err);
         }
     });
-
 });
 
 
-module.exports = router;
+export default router;

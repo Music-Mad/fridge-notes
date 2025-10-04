@@ -1,19 +1,26 @@
 //  IMPORTS 
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import codesRouter from './routes/codes.js'
+import boardRouter from './routes/board.js'
+
 const app = express();
 
+//Get dirname for project
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.use(express.urlencoded({ extended: true}));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', require('./routes/codes.js'));
-app.use('/', require('./routes/board.js'));
+// Mount route handlers
+app.use('/api', codesRouter);
+app.use('/', boardRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
-
 
 //start server
 const port = 3000;
