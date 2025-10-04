@@ -19,7 +19,7 @@ function createTable(db) {
     CREATE TABLE boards
     (
       id INTEGER PRIMARY KEY,
-      username VARCHAR(50) NOT NULL
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `).run();
 
@@ -29,6 +29,9 @@ function createTable(db) {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       board_id INTEGER,
       content TEXT NOT NULL,
+      x_position REAL NOT NULL,
+      y_position REAL NOT NULL,
+      z_index INTEGER DEFAULT 0,
       FOREIGN KEY (board_id) REFERENCES boards(id)
     );
   `).run();
