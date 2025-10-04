@@ -1,6 +1,7 @@
-const fs = require('fs'); //file system node module
+import fs from 'fs'; //file system node module
+import Database from 'better-sqlite3';
 const filepath = './db/models/boards.db';
-const Database = require('better-sqlite3');
+
 
 function createDbConnection() {
     //check if db files already exists
@@ -37,4 +38,4 @@ function createTable(db) {
   `).run();
 }
 
-module.exports = createDbConnection();
+export default createDbConnection();
