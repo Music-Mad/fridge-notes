@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import * as boardController from '../controllers/boardController.js'
 const router = express.Router();
 
@@ -13,7 +12,6 @@ router.post('/board-code', (req, res) => {
     }
 
     res.redirect(`/board?boardCode=${code}`);
-
 });
 
 export default router;
