@@ -1,9 +1,9 @@
 const fs = require('fs'); //file system node module
-const filepath = './models/test.db';
+const filepath = './db/models/boards.db';
 const Database = require('better-sqlite3');
 
 function createDbConnection() {
-    //check if db file already exists
+    //check if db files already exists
     if (fs.existsSync(filepath)) {
         return new Database(filepath, {verbose: console.log});
     }
@@ -15,11 +15,21 @@ function createDbConnection() {
 }
 
 function createTable(db) {
-  info = db.prepare(`
-    CREATE TABLE rooms
+  db.prepare(`
+    CREATE TABLE boards
     (
-      code INTEGER PRIMARY KEY,
-      username   VARCHAR(50) NOT NULL
+      id INTEGER PRIMARY KEY,
+      username VARCHAR(50) NOT NULL
+    );
+  `).run();
+
+    db.prepare(`
+    CREATE TABLE sticky_notes
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      board_id INTEGER,
+      content TEXT NOT NULL,
+      FOREIGN KEY (board_id) REFERENCES boards(id)
     );
   `).run();
 }
