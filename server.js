@@ -2,6 +2,7 @@
 import express from 'express';
 import codesRouter from './routes/codes.js';
 import notesRouter from './routes/notes.js';
+import boardsRouter from './routes/board.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Mount route handlers
 app.use('/api', codesRouter);
 app.use('/api', notesRouter);
+app.use('/api', boardsRouter);
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'index.html'));
