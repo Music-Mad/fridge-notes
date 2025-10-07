@@ -1,7 +1,8 @@
 //  IMPORTS 
 import express from 'express';
-import codesRouter from './routes/codes.js'
-import boardRouter from './routes/board.js'
+import codesRouter from './routes/codes.js';
+import boardRouter from './routes/board.js';
+import notesRouter from './routes/notes.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount route handlers
 app.use('/api', codesRouter);
+app.use('/api', notesRouter);
 app.use('/', boardRouter);
 
 app.get('/', (req, res) => {
