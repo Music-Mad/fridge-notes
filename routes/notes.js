@@ -15,14 +15,4 @@ router.post('/notes', (req, res) => {
     }
 });
 
-//get notes by board id API endpoint 
-router.get('/notes/:board_id', (req, res) => {
-    try {
-        const notes = notesController.getNotesFromBoard(req.params.board_id);
-        res.json({ success: true, notes });
-    } catch (error) {
-        res.status(500).json({sucess: false, message: error.message});
-    }
-}); 
-
 export default router;
