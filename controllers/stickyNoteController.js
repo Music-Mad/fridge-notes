@@ -21,7 +21,7 @@ function getNote(id) {
 };
 
 
-function getNotesFromBoard(board_id) {
+function getNotesFromBoardId(board_id) {
     try {
         const data = db.prepare(`SELECT * FROM sticky_notes WHERE board_id = ?`).all(board_id);
         return data;
@@ -31,4 +31,4 @@ function getNotesFromBoard(board_id) {
     }
 };
 
-export {createNote, getNote, getNotesFromBoard};
+export {createNote, getNote, getNotesFromBoardId};
