@@ -1,23 +1,29 @@
 import db from '../db/database.js';
 
-function createBoard(boardCode) {
+function get(boardCode) {
+    try {
+        const board = db.prepare(`SELECT * FROM boards WHERE id = ?`).get(boardCode);
+        //check if data is empty for proper status handling
+        if (board === undefined) {
+            return {status: 404, data: null};
+        }
+        return {status: 200, data: board};
+    } catch (error) {
+        console.error(error.message);
+        return {status: 500, data: null};
+    }
+};
+
+function create(boardCode) {
     try {
         const info = db.prepare(`INSERT INTO boards (id) VALUES (?)`).run(boardCode);
-        return true;
+        const board = get(info.lastInsertRowid);
+        return {status: 201, data: board}
     } catch (error) {
         console.error(error.message);
-        return false;
+        return {status: 500, data: null};
     }
 };
 
-function getBoard(boardCode) {
-    try {
-        const roomData = db.prepare(`SELECT * FROM boards WHERE id = ?`).get(boardCode);
-        return(roomData);
-    } catch (error) {
-        console.error(error.message);
-        return(null);
-    }
-};
 
-export { createBoard, getBoard };
+export { create, get };

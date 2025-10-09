@@ -8,8 +8,8 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 router.get('/boards/:board_id/notes', (req, res) => {
-    const notes = notesController.getFromBoardId(req.params.board_id);
-    res.json({ success: true, notes });
+    const {status, data} = notesController.getFromBoardId(req.params.board_id);
+    res.status(status).json(data);
 });
 
 export default router;
