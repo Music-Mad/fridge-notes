@@ -4,15 +4,15 @@ const router = express.Router();
 
 //Get note by id API endpoint
 router.get('/notes/:note_id', (req, res) => {
-    const { data, status } = notesController.get(req.params.note_id);
-    res.status(status).json({ data });
+    const { status, data } = notesController.get(req.params.note_id);
+    res.status(status).json(data);
 });
 
 //create note API endpoint
 router.post('/notes', (req, res) => {
     const {content, x_position, y_position, z_index, board_id} = req.body;
-    const { data, status} = notesController.create(content, x_position, y_position, z_index, board_id);
-    res.status(status).json({ data });
+    const { status, data} = notesController.create(content, x_position, y_position, z_index, board_id);
+    res.status(status).json(data);
 });
 
 router.put('/notes/:note_id', (req, res) => {
@@ -20,7 +20,7 @@ router.put('/notes/:note_id', (req, res) => {
         const note_id = req.params.note_id;
         const { content, x_position, y_position, z_index, board_id} = req.body;
         
-        const {data, status} = notesController.update(note_id, {content, x_position, y_position, z_index, board_id});
+        const {status, data} = notesController.update(note_id, {content, x_position, y_position, z_index, board_id});
 
         if (status == 400) {
             return res.status(400).json({
@@ -36,7 +36,7 @@ router.put('/notes/:note_id', (req, res) => {
             });
         } 
     
-        res.status(status).json({ data });
+        res.status(status).json(data);
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

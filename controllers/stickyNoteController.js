@@ -5,12 +5,12 @@ function get(id) {
         const note = db.prepare(`SELECT * FROM sticky_notes WHERE id = ?`).get(id);
         //check if note exists to return proper status code
         if (note === undefined) {
-            return { data: null, status: 404};
+            return { status: 404, data: null};
         }
-        return { data: note, status: 200};
+        return { status: 200, data: note};
     } catch (error) {
         console.error(error.message);
-        return { data: null, status: 500};
+        return { status: 500, data: null};
     }
 };
 
@@ -20,12 +20,12 @@ function getFromBoardId(board_id) {
         const notes = db.prepare(`SELECT * FROM sticky_notes WHERE board_id = ?`).all(board_id);
         //check if notes is empty to return proper status code
         if (notes.length == 0) {
-            return { data: null, status: 404};
+            return { status: 404, data: null };
         }
-        return { data: notes, status: 200 };
+        return { status: 200, data: notes};
     } catch (error) {
         console.error(error.message);
-        return { data: null, status: 500 };
+        return { status: 500, data: null};
     }
 };
 
@@ -60,7 +60,7 @@ function update(note_id, { content, x_position, y_position, z_index, board_id } 
 
         //if request contained no updates
         if (fields.length === 0) {
-            return { data: null, status: 400};
+            return { status: 400, data: null};
         }
 
         const info = db.prepare(`UPDATE sticky_notes SET ${fields.join(', ')} where id = ?`).run(...values);
@@ -68,12 +68,12 @@ function update(note_id, { content, x_position, y_position, z_index, board_id } 
 
         //if note cannot be found
         if (info.changes === 0) {
-            return {data: null, status: 404};
+            return { status: 404, data: null};
         }
 
-        return { data: note, status: 200 };
+        return { status: 200, data: note};
     } catch (error) {
-        return { data: null, status: 500};
+        return { status: 500, data: null };
     }
 };
 
@@ -81,11 +81,11 @@ function create(content, x_position, y_position, z_index, board_id) {
     try {
         const info = db.prepare('INSERT INTO sticky_notes (board_id, content, x_position, y_position, z_index) VALUES (?, ?, ?, ?, ?)').run(board_id, content, x_position, y_position, z_index);
         const note = get(info.lastInsertRowid).data;
-        return { data: note, status: 201};
+        return { status: 201, data: note};
 
     } catch (error) {
         console.error(error.message);
-        return { data: null, status: 400};
+        return { status: 400, data: null };
     }
 };
 
