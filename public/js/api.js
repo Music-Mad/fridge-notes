@@ -1,6 +1,16 @@
 const NotesAPI = {
     baseURL: '/api/notes',
 
+    async get(noteId) {
+        const response = await fetch(`${this.baseURL}/${noteId}`);
+        return response.json();
+    },
+
+    async getByBoard(board_id) {
+        const response = await fetch(`/api/boards/${board_id}/notes`);
+        return response.json();
+    }, 
+
     async create(content, x_position, y_position, z_position, board_id) {
         const response = await fetch(this.baseURL, {
             method: 'POST',
@@ -13,11 +23,6 @@ const NotesAPI = {
                 board_id: board_id
             })
         });
-        return response.json();
-    },
-
-    async get(noteId) {
-        response = await fetch(`${this.baseURL}/${noteId}`);
         return response.json();
     },
 
