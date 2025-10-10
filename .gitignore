@@ -1,2 +1,4 @@
 node_modules/
-db/models/
+#.gitkeep file to track models directory
+db/models/*
+!db/models/.gitkeep
