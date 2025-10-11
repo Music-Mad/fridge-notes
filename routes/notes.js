@@ -42,4 +42,9 @@ router.put('/notes/:note_id', (req, res) => {
     }
 }); 
 
+router.delete('/notes/:note_id', (req, res) => {
+    const { status, data } = notesController.remove(req.params.note_id);
+    res.status(status).json(data);
+});
+
 export default router;

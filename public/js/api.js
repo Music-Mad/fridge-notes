@@ -33,5 +33,18 @@ const NotesAPI = {
             body: JSON.stringify(updates)
         });
         return response.json();
+    },
+
+    async remove(noteId) {        
+        const response = await fetch(`${this.baseURL}/${noteId}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json}'},
+        });
+        
+        if (response.ok) {
+            return true;
+        } else {
+            return false;
+        }
     }
 };

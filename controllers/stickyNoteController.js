@@ -89,4 +89,16 @@ function create(content, x_position, y_position, z_index, board_id) {
     }
 };
 
-export {create, get, update, getFromBoardId};
+function remove(note_id) {
+    try {
+        const note = get(note_id);
+        console.log(note);
+        const info = db.prepare(`DELETE FROM sticky_notes WHERE id = ?`).run(note_id);
+        return { status: 204, data: null };
+    } catch (error) {
+        console.error(error.message);
+        return { status: 500, data: null };
+    }
+};
+
+export {create, get, update, remove, getFromBoardId};
