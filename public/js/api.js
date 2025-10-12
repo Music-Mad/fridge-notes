@@ -11,7 +11,7 @@ const NotesAPI = {
         return response.json();
     }, 
 
-    async create(content, x_position, y_position, z_position, board_id) {
+    async create(content, x_position, y_position, z_index, board_id) {
         const response = await fetch(this.baseURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -19,7 +19,7 @@ const NotesAPI = {
                 content: content,
                 x_position: x_position,
                 y_position: y_position,
-                z_index: z_position,
+                z_index: z_index,
                 board_id: board_id
             })
         });
