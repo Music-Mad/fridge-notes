@@ -1,23 +1,76 @@
-async function createNote(content, x_position, y_position, z_index, board_id) {
-    const note = document.createElement("div");
-    const textContent = document.createElement('div');
 
-    note.className = "sticky-note";
-    note.style.position = 'absolute';
-    note.style.left = `${x_position}px`;
-    note.style.top = `${y_position}px`;
-    note.style.zIndex = `${z_index}`;
+const StickyManager = {
+    async create(content, x_position, y_position, z_index, board_id) {
+        //create note in table and makes sure operation was successful
+        const note =  await NotesAPI.create(content, x_position, y_position, z_index, board_id);
+        if (note == null) {
+            return null;
+        }
 
-    textContent.className = 'sticky-content';
-    textContent.textContent = content;
-    textContent.style.minHeight = '150px';
-    textContent.style.textAlign = 'center';
+        //add the note DOM element to the document
+        const noteDom = document.createElement("div");
+        const noteContent = document.createElement('div');
 
-    note.appendChild(textContent);
-    document.body.appendChild(note);
-    return await NotesAPI.create(content, x_position, y_position, z_index);
-};
+        noteDom.id = `${note.id}`;
+        noteDom.className = "sticky-note";
+        noteDom.style.position = 'absolute';
+        noteDom.style.left = `${x_position}px`;
+        noteDom.style.top = `${y_position}px`;
+        noteDom.style.zIndex = `${z_index}`;
 
-function remove(content, x_position, y_position, z_index, board_id) {
+        noteContent.className = 'sticky-content';
+        noteContent.textContent = content;
 
+        noteDom.appendChild(noteContent);
+        document.body.appendChild(noteDom);
+        return noteDom;
+    },
+
+    async get(note_id) {
+        return document.getElementById(`${note_id}`);
+    },
+
+    async update(note_id, {content, x_position, y_position, z_index, board_id} = {}) {
+        const noteDom = await this.get(note_id);
+        if (noteDom == null) {
+            return null;
+        }
+        //reconstruct updates into object for API handling
+        const updates = {
+            content: content,
+            x_position: x_position,
+            y_position: y_position,
+            z_index: z_index,
+            board_id: board_id
+        }
+        NotesAPI.update(note_id, updates);
+        
+        if (content !== undefined) {
+            noteDom.querySelector('.sticky-content').textContent = content;
+        }
+        if (x_position !== undefined)
+        {
+            noteDom.style.left = x_position + 'px';
+        }
+        if (y_position !== undefined) {
+            noteDom.style.top = y_position + 'px';
+        } 
+        if (z_index !== undefined) {
+            noteDom.style.zIndex = z_index;
+        } 
+
+        return noteDom;
+    },
+
+    async remove(note_id) {
+        //retrieve note and make sure its valid
+        const note = await this.get(note_id);
+        if (note == null) {
+            return false;
+        }
+
+        document.body.removeChild(note);
+        await NotesAPI.remove(note_id);
+        return true;
+    }
 };
