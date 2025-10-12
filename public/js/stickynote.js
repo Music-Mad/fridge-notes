@@ -1,9 +1,12 @@
 
 const StickyManager = {
-    async create(content, x_position, y_position, z_index, note_id) {
+    //tracks event listeners so they can be properly removed
+    _dragListeners: new Map(),
+
+    create(x_position, y_position, z_index, note_id) {
         //add the note DOM element to the document
         const noteDom = document.createElement("div");
-        const noteContent = document.createElement('div');
+        const handle = document.createElement('div');
 
         noteDom.id = `${note_id}`;
         noteDom.className = "sticky-note";
@@ -12,28 +15,24 @@ const StickyManager = {
         noteDom.style.top = `${y_position}px`;
         noteDom.style.zIndex = `${z_index}`;
 
-        noteContent.className = 'sticky-content';
-        noteContent.textContent = content;
+        handle.className = 'handle';
 
-        noteDom.appendChild(noteContent);
+        noteDom.appendChild(handle);
         document.body.appendChild(noteDom);
+        this.enableDragging(note_id);
         return noteDom;
     },
 
-    async get(note_id) {
+    get(note_id) {
         return document.getElementById(`${note_id}`);
     },
 
-    async update(note_id, {content, x_position, y_position, z_index} = {}) {
-        const noteDom = await this.get(note_id);
-        console.log(noteDom);
+    update(note_id, {x_position, y_position, z_index} = {}) {
+        const noteDom = this.get(note_id);
         if (noteDom == null) {
             return null;
         }
         
-        if (content !== undefined) {
-            noteDom.querySelector('.sticky-content').textContent = content;
-        }
         if (x_position !== undefined)
         {
             noteDom.style.left = x_position + 'px';
@@ -48,13 +47,68 @@ const StickyManager = {
         return noteDom;
     },
 
-    async remove(note_id) {
+    enableDragging(note_id) {
+        const noteDom = this.get(note_id);
+        if (!noteDom) return;
+
+        const handle = noteDom.querySelector('.handle');
+        if (!handle) return;   
+
+        let isDragging = false;
+        //offset variables for mouse centering
+        let offsetX = 0;
+        let offsetY = 0;
+
+        const onMouseDown = (e) => {
+            isDragging = true;
+            handle.style.cursor = 'grabbing';
+
+            offsetX = e.clientX - noteDom.offsetLeft;
+            offsetY = e.clientY - noteDom.offsetTop;
+        };
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            this.update(note_id, {x_position: e.clientX - offsetX, y_position: e.clientY - offsetY});
+        };
+        const onMouseUp = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            handle.style.cursor = 'grab';
+        };
+
+        handle.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+
+        this._dragListeners.set(note_id, {
+            handle,
+            onMouseDown,
+            onMouseMove,
+            onMouseUp
+        });
+    },
+
+    disableDragging(note_id) {
+        const listeners = this._dragListeners.get(note_id);
+        if (!listeners) return;
+
+        const { handle, onMouseDown, onMouseMove, onMouseUp } = listeners;
+        handle.removeEventListener('mousedown', onMouseDown);
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+        this._dragListeners.delete(note_id);
+    },
+
+
+    remove(note_id) {
         //retrieve note and make sure its valid
-        const note = await this.get(note_id);
+        const note = this.get(note_id);
         if (note == null) {
             return false;
         }
 
+        this.disableDragging(note_id);
         document.body.removeChild(note);
         return true;
     }
