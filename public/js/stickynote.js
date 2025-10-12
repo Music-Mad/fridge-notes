@@ -1,17 +1,11 @@
 
 const StickyManager = {
-    async create(content, x_position, y_position, z_index, board_id) {
-        //create note in table and makes sure operation was successful
-        const note =  await NotesAPI.create(content, x_position, y_position, z_index, board_id);
-        if (note == null) {
-            return null;
-        }
-
+    async create(content, x_position, y_position, z_index, note_id) {
         //add the note DOM element to the document
         const noteDom = document.createElement("div");
         const noteContent = document.createElement('div');
 
-        noteDom.id = `${note.id}`;
+        noteDom.id = `${note_id}`;
         noteDom.className = "sticky-note";
         noteDom.style.position = 'absolute';
         noteDom.style.left = `${x_position}px`;
@@ -30,20 +24,12 @@ const StickyManager = {
         return document.getElementById(`${note_id}`);
     },
 
-    async update(note_id, {content, x_position, y_position, z_index, board_id} = {}) {
+    async update(note_id, {content, x_position, y_position, z_index} = {}) {
         const noteDom = await this.get(note_id);
+        console.log(noteDom);
         if (noteDom == null) {
             return null;
         }
-        //reconstruct updates into object for API handling
-        const updates = {
-            content: content,
-            x_position: x_position,
-            y_position: y_position,
-            z_index: z_index,
-            board_id: board_id
-        }
-        NotesAPI.update(note_id, updates);
         
         if (content !== undefined) {
             noteDom.querySelector('.sticky-content').textContent = content;
@@ -70,7 +56,6 @@ const StickyManager = {
         }
 
         document.body.removeChild(note);
-        await NotesAPI.remove(note_id);
         return true;
     }
 };
