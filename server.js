@@ -2,7 +2,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
-import codesRouter from './routes/codes.js';
 import notesRouter from './routes/notes.js';
 import boardsRouter from './routes/board.js';
 
@@ -16,7 +15,6 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount route handlers
-app.use('/api', codesRouter);
 app.use('/api', notesRouter);
 app.use('/api', boardsRouter);
 
