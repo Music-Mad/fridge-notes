@@ -2,8 +2,10 @@
 const StickyManager = {
     //tracks event listeners so they can be properly removed
     _dragListeners: new Map(),
+    //tracks z-index of top sticky 
+    top: 0,
 
-    create(x_position, y_position, z_index, note_id) {
+    create(x_position, y_position, note_id) {
         //add the note DOM element to the document
         const noteDom = document.createElement("div");
         const handle = document.createElement('div');
@@ -13,7 +15,9 @@ const StickyManager = {
         noteDom.style.position = 'absolute';
         noteDom.style.left = `${x_position}px`;
         noteDom.style.top = `${y_position}px`;
-        noteDom.style.zIndex = `${z_index}`;
+        noteDom.style.zIndex = `${this.top}`;
+        this.top += 1;
+        
 
         handle.className = 'handle';
 
@@ -55,14 +59,18 @@ const StickyManager = {
         if (!handle) return;   
 
         let isDragging = false;
-        //offset variables for mouse centering
+        //offset variables for mouse consitency
         let offsetX = 0;
         let offsetY = 0;
 
         const onMouseDown = (e) => {
             isDragging = true;
             handle.style.cursor = 'grabbing';
+            //update z-index to put not at top of list
+            noteDom.style.zIndex = this.top;
+            this.top += 1;
 
+            //grab offset for grab consistency
             offsetX = e.clientX - noteDom.offsetLeft;
             offsetY = e.clientY - noteDom.offsetTop;
         };
@@ -98,6 +106,19 @@ const StickyManager = {
         document.removeEventListener('mouseup', onMouseUp);
 
         this._dragListeners.delete(note_id);
+    },
+
+    startDragging(note_id, x, y) {
+        const listeners = this._dragListeners.get(note_id);
+        if (!listeners) return;
+
+        const {handle} = listeners;
+
+        const mouseDownEvent = new MouseEvent('mousedown', {
+            clientX: x,
+            clientY: y
+        });
+        handle.dispatchEvent(mouseDownEvent);
     },
 
 
