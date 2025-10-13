@@ -76,7 +76,19 @@ const StickyManager = {
         };
         const onMouseMove = (e) => {
             if (!isDragging) return;
-            this.update(note_id, {x_position: e.clientX - offsetX, y_position: e.clientY - offsetY});
+
+            const noteWidth = noteDom.offsetWidth;
+            const noteHeight = noteDom.offsetHeight;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;  
+
+            let x = e.clientX - offsetX;
+            let y = e.clientY - offsetY;
+            //clamp position values to viewport
+            x = Math.max(0, Math.min(viewportWidth - noteWidth, x));
+            y = Math.max(0, Math.min(viewportHeight - noteHeight, y));
+          
+            this.update(note_id, {x_position: x, y_position: y});
         };
         const onMouseUp = (e) => {
             if (!isDragging) return;
