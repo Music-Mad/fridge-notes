@@ -80,6 +80,7 @@ const StickyManager = {
         const onMouseDown = (e) => {
             isDragging = true;
             handle.style.cursor = 'grabbing';
+            noteDom.style.boxShadow = '3px 18px 16px rgba(0,0,0,0.2)';
             //update z-index to put not at top of list
             noteDom.style.zIndex = this.top;
             this.top += 1;
@@ -97,8 +98,9 @@ const StickyManager = {
         };
         const onMouseUp = (e) => {
             if (!isDragging) return;
-            isDragging = false;
             handle.style.cursor = 'grab';
+            noteDom.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)';
+            isDragging = false;
         };
 
         handle.addEventListener('mousedown', onMouseDown);
