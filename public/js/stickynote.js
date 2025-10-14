@@ -7,7 +7,7 @@ const StickyManager = {
     //variables for note position clamping
     boundPadding: 10,
     
-    create(x_position, y_position, note_id) {
+    create(color, x_position, y_position, note_id) {
         //add the note DOM element to the document
         const noteDom = document.createElement("div");
         const handle = document.createElement('div');
@@ -15,6 +15,7 @@ const StickyManager = {
         noteDom.id = `${note_id}`;
         noteDom.className = "sticky-note";
         noteDom.style.position = 'absolute';
+        noteDom.style.backgroundColor = `${color}`;
         noteDom.style.zIndex = `${this.top}`;
         this.top += 1;
         
@@ -36,12 +37,15 @@ const StickyManager = {
         return document.getElementById(`${note_id}`);
     },
 
-    update(note_id, {x_position, y_position, z_index} = {}) {
+    update(note_id, {color, x_position, y_position, z_index} = {}) {
         const noteDom = this.get(note_id);
         if (noteDom == null) {
             return null;
         }
         
+        if (color !== undefined) {
+            noteDom.style.backgroundColor = `{color}`;
+        }
         if (x_position !== undefined)
         {
             noteDom.style.left = x_position + 'px';
