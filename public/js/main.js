@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     const stickyPad = document.getElementById('sticky-pad');
     stickyPad.addEventListener('mousedown', async (e) => {
-        const note = await NotesAPI.create('test', e.clientX - 180, e.clientY, 1, boardCode);
+        const note = await NotesAPI.create('#fff475', e.clientX - 180, e.clientY, 1, boardCode);
         const noteDom = StickyManager.create(e.clientX - 160, e.clientY, note.id);
         StickyManager.startDragging(note.id, e.clientX, e.clientY);
     });

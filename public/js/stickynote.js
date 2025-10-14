@@ -144,7 +144,6 @@ const StickyManager = {
         const header = document.getElementById('header');
         const headerHeight = header.offsetHeight;
         
-        console.log(viewportWidth, noteWidth, this.boundPadding);
         x = Math.max(0 + this.boundPadding, Math.min(viewportWidth - noteWidth - this.boundPadding, x));
 
         y = Math.max(headerHeight + this.boundPadding, Math.min(viewportHeight - noteHeight - this.boundPadding, y));

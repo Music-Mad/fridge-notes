@@ -11,12 +11,12 @@ const NotesAPI = {
         return response.json();
     }, 
 
-    async create(content, x_position, y_position, z_index, board_id) {
+    async create(color, x_position, y_position, z_index, board_id) {
         const response = await fetch(this.baseURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
-                content: content,
+                color: color,
                 x_position: x_position,
                 y_position: y_position,
                 z_index: z_index,
