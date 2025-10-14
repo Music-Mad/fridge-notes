@@ -4,7 +4,9 @@ const StickyManager = {
     _dragListeners: new Map(),
     //tracks z-index of top sticky 
     top: 0,
-
+    //variables for note position clamping
+    boundPadding: 10,
+    
     create(x_position, y_position, note_id) {
         //add the note DOM element to the document
         const noteDom = document.createElement("div");
@@ -13,16 +15,19 @@ const StickyManager = {
         noteDom.id = `${note_id}`;
         noteDom.className = "sticky-note";
         noteDom.style.position = 'absolute';
-        noteDom.style.left = `${x_position}px`;
-        noteDom.style.top = `${y_position}px`;
         noteDom.style.zIndex = `${this.top}`;
         this.top += 1;
         
-
         handle.className = 'handle';
 
         noteDom.appendChild(handle);
         document.body.appendChild(noteDom);
+
+        //clamp position values befores setting note style
+        let {x, y} = this.clampPos(x_position, y_position, noteDom);
+        noteDom.style.left = `${x}px`;
+        noteDom.style.top = `${y}px`;
+
         this.enableDragging(note_id);
         return noteDom;
     },
@@ -62,6 +67,11 @@ const StickyManager = {
         //offset variables for mouse consitency
         let offsetX = 0;
         let offsetY = 0;
+        //get header height for note bounding box
+        const header = document.getElementById('header');
+        const headerHeight = header.offsetHeight;
+        
+        const boundPadding = 10;
 
         const onMouseDown = (e) => {
             isDragging = true;
@@ -76,18 +86,9 @@ const StickyManager = {
         };
         const onMouseMove = (e) => {
             if (!isDragging) return;
-
-            const noteWidth = noteDom.offsetWidth;
-            const noteHeight = noteDom.offsetHeight;
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;  
-
-            let x = e.clientX - offsetX;
-            let y = e.clientY - offsetY;
             //clamp position values to viewport
-            x = Math.max(0, Math.min(viewportWidth - noteWidth, x));
-            y = Math.max(0, Math.min(viewportHeight - noteHeight, y));
-          
+            let {x, y} = this.clampPos(e.clientX - offsetX, e.clientY - offsetY, noteDom);
+            
             this.update(note_id, {x_position: x, y_position: y});
         };
         const onMouseUp = (e) => {
@@ -131,6 +132,23 @@ const StickyManager = {
             clientY: y
         });
         handle.dispatchEvent(mouseDownEvent);
+    },
+
+    clampPos(x, y, noteDom) {
+
+        const noteWidth = noteDom.offsetWidth;
+        const noteHeight = noteDom.offsetHeight;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight; 
+
+        const header = document.getElementById('header');
+        const headerHeight = header.offsetHeight;
+        
+        console.log(viewportWidth, noteWidth, this.boundPadding);
+        x = Math.max(0 + this.boundPadding, Math.min(viewportWidth - noteWidth - this.boundPadding, x));
+
+        y = Math.max(headerHeight + this.boundPadding, Math.min(viewportHeight - noteHeight - this.boundPadding, y));
+        return {x, y};
     },
 
 
