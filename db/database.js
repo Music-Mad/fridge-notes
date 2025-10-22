@@ -29,7 +29,7 @@ function createTable(db) {
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       board_id INTEGER,
-      content TEXT NOT NULL,
+      color TEXT NOT NULL,
       x_position REAL NOT NULL,
       y_position REAL NOT NULL,
       z_index INTEGER DEFAULT 0,
