@@ -5,6 +5,6 @@ async function loadObjects(board_id) {
     }
     
     for (var i = 0; i < notes.length; i++) {
-        StickyManager.create(notes[i].x_position, notes[i].y_position, notes[i].id);
+        StickyManager.create('#fff475',notes[i].x_position, notes[i].y_position, notes[i].id);
     }
 }

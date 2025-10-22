@@ -2,26 +2,32 @@
 const StickyManager = {
     //tracks event listeners so they can be properly removed
     _dragListeners: new Map(),
+    _canvasListeners: new Map(),
     //tracks z-index of top sticky 
     top: 0,
-    //variables for note position clamping
+    //variable for note position clamping
     boundPadding: 10,
     
     create(color, x_position, y_position, note_id) {
-        //add the note DOM element to the document
+        //create sticky note components
         const noteDom = document.createElement("div");
         const handle = document.createElement('div');
+        const canvas = document.createElement('canvas');
 
+        //assinging class names
         noteDom.id = `${note_id}`;
         noteDom.className = "sticky-note";
+        handle.className = 'handle';
+        canvas.className = 'note-canvas';
+
+        //sticky note styling
         noteDom.style.position = 'absolute';
         noteDom.style.backgroundColor = `${color}`;
         noteDom.style.zIndex = `${this.top}`;
         this.top += 1;
         
-        handle.className = 'handle';
-
         noteDom.appendChild(handle);
+        noteDom.appendChild(canvas);
         document.body.appendChild(noteDom);
 
         //clamp position values befores setting note style
@@ -29,7 +35,12 @@ const StickyManager = {
         noteDom.style.left = `${x}px`;
         noteDom.style.top = `${y}px`;
 
+        //adjust canvas scaling to match parent
+        canvas.width = noteDom.offsetWidth;
+        canvas.height = noteDom.offsetHeight - handle.offsetHeight;
+
         this.enableDragging(note_id);
+        this.enableDrawing(note_id);
         return noteDom;
     },
 
@@ -80,6 +91,7 @@ const StickyManager = {
         const onMouseDown = (e) => {
             isDragging = true;
             handle.style.cursor = 'grabbing';
+            noteDom.style.boxShadow = '3px 18px 16px rgba(0,0,0,0.2)';
             //update z-index to put not at top of list
             noteDom.style.zIndex = this.top;
             this.top += 1;
@@ -97,8 +109,9 @@ const StickyManager = {
         };
         const onMouseUp = (e) => {
             if (!isDragging) return;
-            isDragging = false;
             handle.style.cursor = 'grab';
+            noteDom.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)';
+            isDragging = false;
         };
 
         handle.addEventListener('mousedown', onMouseDown);
@@ -136,6 +149,57 @@ const StickyManager = {
             clientY: y
         });
         handle.dispatchEvent(mouseDownEvent);
+    },
+
+    enableDrawing(note_id) {
+        const noteDom = this.get(note_id);
+        if (!noteDom) return;
+
+        let canvas = noteDom.querySelector('.note-canvas');
+        let ctx = canvas.getContext('2d');
+        let isDrawing = false;
+
+          
+        const getCanvasCoords = (e) => {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        };
+
+        const onMouseDown = e => {
+            isDrawing = true;
+            let {x, y} = getCanvasCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+
+        }
+
+        const onMouseMove = e => {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            let {x, y} = getCanvasCoords(e);
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        const onMouseUp = e => {
+            isDrawing = false;
+            
+        }
+
+        canvas.addEventListener('mousedown', onMouseDown);
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', onMouseUp);
+        canvas.addEventListener('mouseleave', onMouseUp);
+
+    },
+
+    disableDrawing(note_id) {
+        const listeners = this._dragListeners.get(note_id);
+        if (!listeners) return;
     },
 
     clampPos(x, y, noteDom) {
