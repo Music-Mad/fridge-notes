@@ -8,7 +8,7 @@ const StickyManager = {
     //variable for note position clamping
     boundPadding: 10,
     
-    create(color, x_position, y_position, note_id) {
+    create(canvas_data, color, x_position, y_position, note_id) {
         //create sticky note components
         const noteDom = document.createElement("div");
         const handle = document.createElement('div');
@@ -39,6 +39,16 @@ const StickyManager = {
         canvas.width = noteDom.offsetWidth;
         canvas.height = noteDom.offsetHeight - handle.offsetHeight;
 
+        //load canvas data if it exists
+        if (canvas_data) {
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.onLoad = () => {
+                ctx.drawImage(img, 0, 0);
+            }
+            img.src = canvas_data;
+        }
+
         this.enableDragging(note_id);
         this.enableDrawing(note_id);
         return noteDom;
@@ -46,6 +56,19 @@ const StickyManager = {
 
     get(note_id) {
         return document.getElementById(`${note_id}`);
+    },
+
+    getAll() {
+        return document.getElementsByClassName('sticky-note');
+    },
+
+    getCanvasURL(note_id) {
+        const noteDom = this.get(note_id);
+        if (!noteDom) return;
+        
+        const canvas = noteDom.querySelector('note-canvas');
+        const dataURL = canvas.toDataURl('image/png');
+        return dataURL;
     },
 
     update(note_id, {color, x_position, y_position, z_index} = {}) {
