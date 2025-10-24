@@ -43,7 +43,7 @@ const StickyManager = {
         if (canvas_data) {
             const ctx = canvas.getContext('2d');
             const img = new Image();
-            img.onLoad = () => {
+            img.onload = () => {
                 ctx.drawImage(img, 0, 0);
             }
             img.src = canvas_data;
@@ -66,8 +66,8 @@ const StickyManager = {
         const noteDom = this.get(note_id);
         if (!noteDom) return;
         
-        const canvas = noteDom.querySelector('note-canvas');
-        const dataURL = canvas.toDataURl('image/png');
+        const canvas = noteDom.querySelector('.note-canvas');
+        const dataURL = canvas.toDataURL('image/png');
         return dataURL;
     },
 
