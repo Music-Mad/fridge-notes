@@ -148,8 +148,11 @@ const StickyManager = {
         //get header height for note bounding box
         const header = document.getElementById('header');
         const headerHeight = header.offsetHeight;
-        
         const boundPadding = 10;
+
+        //get trash can dims
+        const trash = document.getElementById('trash');
+        const trashRect = trash.getBoundingClientRect();
 
         const onMouseDown = (e) => {
             isDragging = true;
@@ -170,7 +173,12 @@ const StickyManager = {
             //clamp position values to viewport
             let {x, y} = this._clampPos(e.clientX - offsetX, e.clientY - offsetY, noteDom);
             
+            //update note if its over trash
+            if (x <= trashRect.right && (y + noteDom.offsetHeight) >= trashRect.top) {
+                noteDom.classList.add('crumple');
+            }
             this.update(note_id, {x_position: x, y_position: y});
+
             this._notifyChange();
         };
         const onMouseUp = (e) => {
@@ -178,6 +186,13 @@ const StickyManager = {
             handle.style.cursor = 'grab';
             noteDom.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)';
             isDragging = false;
+
+            //clamp position values to viewport
+            let {x, y} = this._clampPos(e.clientX - offsetX, e.clientY - offsetY, noteDom);
+            //remove note if its over trash
+            if (x <= trashRect.right && (y + noteDom.offsetHeight) >= trashRect.top) {
+                this.remove(noteDom.id);
+            }
 
             this._notifyChange();
         };
