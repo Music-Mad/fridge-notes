@@ -295,6 +295,7 @@ const StickyManager = {
 
         this.disableDragging(note_id);
         document.body.removeChild(note);
+        NotesAPI.remove(note_id);
         this._notifyChange();
         return true;
     }
