@@ -174,8 +174,13 @@ const StickyManager = {
             let {x, y} = this._clampPos(e.clientX - offsetX, e.clientY - offsetY, noteDom);
             
             //update note if its over trash
+            let isCrumpled = false;
             if (x <= trashRect.right && (y + noteDom.offsetHeight) >= trashRect.top) {
                 noteDom.classList.add('crumple');
+                isCrumpled = true;
+            } else if (isCrumpled = true) {
+                noteDom.classList.remove('crumple');
+                isCrumpled = false;
             }
             this.update(note_id, {x_position: x, y_position: y});
 
