@@ -142,6 +142,7 @@ const StickyManager = {
         if (!handle) return;   
 
         let isDragging = false;
+        let isCrumpled = false;
         //offset variables for mouse consitency
         let offsetX = 0;
         let offsetY = 0;
@@ -153,6 +154,7 @@ const StickyManager = {
         //get trash can dims
         const trash = document.getElementById('trash');
         const trashRect = trash.getBoundingClientRect();
+
 
         const onMouseDown = (e) => {
             isDragging = true;
@@ -174,11 +176,19 @@ const StickyManager = {
             let {x, y} = this._clampPos(e.clientX - offsetX, e.clientY - offsetY, noteDom);
             
             //update note if its over trash
-            let isCrumpled = false;
+            
             if (x <= trashRect.right && (y + noteDom.offsetHeight) >= trashRect.top) {
-                noteDom.classList.add('crumple');
-                isCrumpled = true;
+                if(!isCrumpled) {
+                    trash.classList.add('hovering');
+                    noteDom.classList.add('crumple');
+                    //create child elements for crumple effect
+                    const child = document.createElement("div");
+                    child.classList.add('child');
+                    noteDom.appendChild(child);
+                    isCrumpled = true;
+                }
             } else if (isCrumpled = true) {
+                trash.classList.remove('hovering');
                 noteDom.classList.remove('crumple');
                 isCrumpled = false;
             }
