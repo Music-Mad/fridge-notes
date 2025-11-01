@@ -36,6 +36,22 @@ header {
     z-index: 100;
 }
 
+#trash {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    width: 100px;
+    transition: bottom .4s ease;
+}
+#trash img {
+    height: 100%;
+}
+#trash.hovering {
+    bottom: 4px;
+    transition: bottom .2s ease, left 1s ease;
+}
+
 #sticky-pad {
     position: fixed;
     height: 30px;
@@ -170,4 +186,8 @@ header {
     height: calc(100% - var(--handle-height));
     border-radius: inherit;
     cursor: crosshair;
+}
+.sticky-note.crumple {
+    opacity: 0.8;
+    transition: opacity 0.5s ease;    
 }
