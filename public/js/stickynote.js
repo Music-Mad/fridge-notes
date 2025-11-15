@@ -202,6 +202,13 @@ const StickyManager = {
             noteDom.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)';
             isDragging = false;
 
+            //return trash can to original state on deletion
+            if(isCrumpled) {
+                trash.classList.remove('hovering');
+                noteDom.classList.remove('crumple');
+                isCrumpled = false;
+            }
+        
             //clamp position values to viewport
             let {x, y} = this._clampPos(e.clientX - offsetX, e.clientY - offsetY, noteDom);
             //remove note if its over trash
