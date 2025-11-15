@@ -262,6 +262,7 @@ const StickyManager = {
 
         let canvas = noteDom.querySelector('.note-canvas');
         let ctx = canvas.getContext('2d');
+        ctx.lineWidth = 3;
         let isDrawing = false;
 
           
