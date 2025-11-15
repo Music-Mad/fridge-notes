@@ -136,22 +136,22 @@ header {
     cursor: pointer;
 }
 .color-selector .red {
-    background-color: rgb(219, 82, 82);
+    background-color: #c4563a;
 }
 .color-selector .green {
-    background-color: rgb(106, 168, 77);
+    background-color: #58c450;
 }
 .color-selector .blue {
-    background-color: rgb(111, 159, 214);
+    background-color: #509dc4;
 }
 .color-selector .yellow {
     background-color: #fff475;
 }
 .color-selector .purple {
-    background-color: rgb(224, 145, 248);
+    background-color: #aa7eb7;
 }
 .color-selector .orange {
-    background-color: rgb(248, 157, 38);
+    background-color: #e8a93e;
 }
 
 .sticky-note {
