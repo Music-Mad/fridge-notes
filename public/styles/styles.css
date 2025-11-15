@@ -92,6 +92,7 @@ header {
 }
 .sidebar .content {
     position: absolute;
+    display: flex;
     top: 1px;
     right: -1px;
     width: 90%;
@@ -105,36 +106,23 @@ header {
 .sidebar:hover .content {
     opacity: 100%;
 }
+.sidebar .content img {
+    flex-shrink: 0;
+    width: 90px;
+    height: 85px;
+    margin: 10px 0 0 5px;
+}
 .sidebar .content ul {
-    position: relative;
-    top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-
-
     list-style: none;
+    margin-left: 10px;
 }
-.sidebar .content ul li  {
-    padding: 10px;
-    margin: 0px 5px 80px 5px;
-    text-align: center;
-    border-style: solid;
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0.495);
-    transition: box-shadow .3s ease, transform .3s ease;
-}
-.sidebar .content ul li:hover {
-    transform: translateY(-5px);
-    box-shadow: 1px 2px 0px 1px rgba(0, 0, 0, 0.238);
-}
-
 .color-selector {
-    display: flex;
+    margin: 20px 10px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 30px;
 }
 .color-selector div {
     width: 15px;
@@ -162,7 +150,9 @@ header {
 .color-selector .purple {
     background-color: rgb(224, 145, 248);
 }
-
+.color-selector .orange {
+    background-color: rgb(248, 157, 38);
+}
 
 .sticky-note {
     --handle-height: 15px;
