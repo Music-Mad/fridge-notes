@@ -99,6 +99,7 @@ header {
 .sidebar .content {
     position: absolute;
     display: flex;
+    flex-direction: column;
     top: 1px;
     right: -1px;
     width: 90%;
@@ -112,16 +113,28 @@ header {
 .sidebar:hover .content {
     opacity: 100%;
 }
-.sidebar .content img {
+.sidebar .content .row {
+    display: flex;
+}
+.sidebar .content .note-icon {
     flex-shrink: 0;
     width: 90px;
     height: 85px;
     margin: 10px 0 0 5px;
 }
+.sidebar .content .pencil-icon {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    margin: 0px 0 0 20px;
+}
 .sidebar .content ul {
     list-style: none;
     margin-left: 10px;
 }
+
 .color-selector {
     margin: 20px 10px 0 0;
     display: grid;
@@ -162,6 +175,39 @@ header {
 .color-selector .selected {
     border-width: 3px;
 }
+
+.pencil-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 7px 0 0 19px;
+    gap: 10px;
+}
+.pencil-selector div {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0, 0, 0, 0.3);
+    background-color: rgb(156, 156, 156);
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0, .3);
+    cursor: pointer;
+}
+.pencil-selector .thin {
+    width: 10px;
+    height: 10px;
+}
+.pencil-selector .thick {
+    width: 20px;
+    height: 20px;
+}
+.color-selector .selected {
+    border-width: 3px;
+}
+
+
 
 .sticky-note {
     --handle-height: 15px;
