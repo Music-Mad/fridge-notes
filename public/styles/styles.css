@@ -38,8 +38,8 @@ header {
 
 #trash {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 5px;
+    left: 10px;
     height: 100px;
     width: 100px;
     transition: bottom .4s ease;
@@ -48,7 +48,7 @@ header {
     height: 100%;
 }
 #trash.hovering {
-    bottom: 4px;
+    bottom: 10px;
     transition: bottom .2s ease, left 1s ease;
 }
 
@@ -92,6 +92,7 @@ header {
 }
 .sidebar .content {
     position: absolute;
+    display: flex;
     top: 1px;
     right: -1px;
     width: 90%;
@@ -105,36 +106,23 @@ header {
 .sidebar:hover .content {
     opacity: 100%;
 }
+.sidebar .content img {
+    flex-shrink: 0;
+    width: 90px;
+    height: 85px;
+    margin: 10px 0 0 5px;
+}
 .sidebar .content ul {
-    position: relative;
-    top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-
-
     list-style: none;
+    margin-left: 10px;
 }
-.sidebar .content ul li  {
-    padding: 10px;
-    margin: 0px 5px 80px 5px;
-    text-align: center;
-    border-style: solid;
-    border-width: 1px;
-    border-color: rgba(0, 0, 0, 0.495);
-    transition: box-shadow .3s ease, transform .3s ease;
-}
-.sidebar .content ul li:hover {
-    transform: translateY(-5px);
-    box-shadow: 1px 2px 0px 1px rgba(0, 0, 0, 0.238);
-}
-
 .color-selector {
-    display: flex;
+    margin: 20px 10px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 30px;
 }
 .color-selector div {
     width: 15px;
@@ -143,26 +131,31 @@ header {
     border-radius: 50%;
     border-style: solid;
     border-width: 1px;
-    border-color: rgba(0,0,0,1);
+    border-color: rgba(0, 0, 0, 0.3);
     box-shadow: 1px 1px 1px 1px rgba(0,0,0, .3);
     cursor: pointer;
 }
 .color-selector .red {
-    background-color: rgb(219, 82, 82);
+    background-color: #c4563a;
 }
 .color-selector .green {
-    background-color: rgb(106, 168, 77);
+    background-color: #58c450;
 }
 .color-selector .blue {
-    background-color: rgb(111, 159, 214);
+    background-color: #509dc4;
 }
 .color-selector .yellow {
     background-color: #fff475;
 }
 .color-selector .purple {
-    background-color: rgb(224, 145, 248);
+    background-color: #aa7eb7;
 }
-
+.color-selector .orange {
+    background-color: #e8a93e;
+}
+.color-selector .selected {
+    border-width: 3px;
+}
 
 .sticky-note {
     --handle-height: 15px;
@@ -188,6 +181,6 @@ header {
     cursor: crosshair;
 }
 .sticky-note.crumple {
-    opacity: 0.8;
+    opacity: 0.6;
     transition: opacity 0.5s ease;    
 }
