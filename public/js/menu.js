@@ -8,7 +8,15 @@ let colorSelector = document.querySelector('.color-selector');
 let selectedColor = "#fff475";
 
 colorSelector.addEventListener('click', (e) => {
-    if (e.target.dataset.color) {
+    const colorDiv = e.target.closest('[data-color]');
+
+    if (e.target.dataset.color && colorDiv) {
+        //remove selected class from previous item
+        colorSelector.querySelectorAll('[data-color]').forEach(div => {
+            div.classList.remove('selected');
+        });
+
+        colorDiv.classList.add('selected');
         selectedColor = e.target.dataset.color;
     }
 });
