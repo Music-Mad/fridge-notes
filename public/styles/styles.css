@@ -2,6 +2,12 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; /*Safari web select*/
+    -khtml-user-select: none;
+    -moz-user-select: none; /*Firefox web select*/
+    -ms-user-select: none; /*Internet Explorer web select*/
+    user-select: none;
 }
 
 body {
