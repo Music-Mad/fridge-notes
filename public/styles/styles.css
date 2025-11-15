@@ -203,7 +203,7 @@ header {
     width: 20px;
     height: 20px;
 }
-.color-selector .selected {
+.pencil-selector .selected {
     border-width: 3px;
 }
 

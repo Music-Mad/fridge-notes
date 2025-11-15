@@ -9,6 +9,8 @@ const StickyManager = {
     top: 0,
     //variable for note position clamping
     boundPadding: 10,
+    //var for canvas line thickness
+    lineThickness: 3,
 
     //Calls callback when Manager makes changes
     _notifyChange() {
@@ -262,7 +264,7 @@ const StickyManager = {
 
         let canvas = noteDom.querySelector('.note-canvas');
         let ctx = canvas.getContext('2d');
-        ctx.lineWidth = 3;
+        ctx.lineWidth = this.lineThickness;
         let isDrawing = false;
 
           
@@ -277,6 +279,7 @@ const StickyManager = {
         const onMouseDown = e => {
             isDrawing = true;
             let {x, y} = getCanvasCoords(e);
+            ctx.lineWidth = this.lineThickness;
             ctx.beginPath();
             ctx.moveTo(x, y);
             this._notifyChange();
