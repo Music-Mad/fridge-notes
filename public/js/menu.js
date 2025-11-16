@@ -49,6 +49,6 @@ stickyPad.addEventListener('mousedown', async (e) => {
 });
 
 document.addEventListener('dblclick', async (e) => {
-    magnetManager.create(e.clientX, e.clientY, 'Start Typing Here...', 1);
+    MagnetManager.create(e.clientX, e.clientY, 'Start Typing Here...', 1);
 });
 

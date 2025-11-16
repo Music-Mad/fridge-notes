@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', async function () {
         }, SAVE_DELAY);
     }
     StickyManager.onChange(onStateChange);
-
+    MagnetManager.onChange(onStateChange);
+    
     //periodically save document just in case
     setInterval(() => {
         if (hasChanges) {
