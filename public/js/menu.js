@@ -39,6 +39,7 @@ pencilSelector.addEventListener('click', (e) => {
     }
 })
 
+//object creation
 const stickyPad = document.getElementById('sticky-pad');
 stickyPad.addEventListener('mousedown', async (e) => {
     const note = await NotesAPI.create(null, selectedColor, e.clientX - 180, e.clientY, 1, boardCode);
@@ -46,3 +47,8 @@ stickyPad.addEventListener('mousedown', async (e) => {
 
     StickyManager.startDragging(note.id, e.clientX, e.clientY);
 });
+
+document.addEventListener('dblclick', async (e) => {
+    magnetManager.create(e.clientX, e.clientY, 'Start Typing Here...', 1);
+});
+
