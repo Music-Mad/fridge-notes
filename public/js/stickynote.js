@@ -39,6 +39,10 @@ const StickyManager = {
     },
 
     create(canvas_data, color, x_position, y_position, z_index, note_id) {
+        if (this.get(note_id)) {
+            return;
+        }
+        
         //create sticky note components
         const noteDom = document.createElement("div");
         const handle = document.createElement('div');
