@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'FridgeMagnet';
+    src: url('../fonts/AlphaFridgeMagnets.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'FridgeMagnet';
+  src: url('../fonts/AlphaFridgeMagnetsAllCaps.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  /* Specifies uppercase only */
+  unicode-range: U+0041-005A; /* A-Z */
+}
+
 * {
     margin: 0px;
     padding: 0px;
@@ -239,18 +255,24 @@ header {
 
 .magnet {
     --handle-height: 7px;
+    background-color: rgba(0,0,0,0);
     position: absolute;
     width: 200px;
     height: 100px;
 }
 .magnet .handle {
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.3);
     cursor: grab;
     width: inherit;
     height: var(--handle-height);
     border-radius: 3px 3px 0 0;
 }
 .magnet textarea {
+    background-color: rgba(0,0,0,0);
+    border-style: solid dotted dotted dotted;
+    border-width: 2px;
+    border-color: rgba(0,0,0,0.3);
     width: inherit;
     height: calc(100% - var(--handle-height));
+    font-family: 'FridgeMagnet', sans-serif;
 }
