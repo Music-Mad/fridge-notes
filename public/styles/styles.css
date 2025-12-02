@@ -226,6 +226,7 @@ header {
 
 
 .sticky-note {
+    position: relative;
     --handle-height: 15px;
     width: 180px;
     height: 180px;
@@ -275,4 +276,67 @@ header {
     width: inherit;
     height: calc(100% - var(--handle-height));
     font-family: 'FridgeMagnet', sans-serif;
+}
+.resizing {
+      border-color: #4f5fd88f;
+      border-style: solid;
+      border-width: 2px;
+      box-shadow: 0 0 0 2px rgba(79, 95, 216, 0.3);
+}
+.resize-handle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border: 2px solid #4f5fd8;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.resizing .resize-handle {
+    opacity: 1;
+}
+.handle-nw {
+    top: -4px;
+    left: -4px;
+    cursor: nwse-resize;
+}
+.handle-ne {
+    top: -4px;
+    right: -4px;
+    cursor: nesw-resize;
+}
+.handle-sw {
+    bottom: -4px;
+    left: -4px;
+    cursor: nesw-resize;
+}
+.handle-se {
+    bottom: -4px;
+    right: -4px;
+    cursor: nwse-resize;
+}
+.handle-n {
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+.handle-s {
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: ns-resize;
+}
+.handle-w {
+    top: 50%;
+    left: -4px;
+    transform: translateY(-50%);
+    cursor: ew-resize;
+}
+.handle-e {
+    top: 50%;
+    right: -4px;
+    transform: translateY(-50%);
+    cursor: ew-resize;
 }
