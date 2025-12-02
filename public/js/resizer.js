@@ -40,6 +40,7 @@ const Resizer = {
         target.appendChild(w);
 
         let isResizing = false;
+        let handle;
         let startX;
         let startY;
         let startWidth;
@@ -54,8 +55,8 @@ const Resizer = {
 
             //get target handle
             isResizing = true;
-            handle = e.target.className.split('')[1].replace('handle-', '');
-
+            handle = e.target.className.split(' ')[1].replace('handle-', '');
+            
             startX = e.clientX;
             startY = e.clientY;
             startWidth = target.offsetWidth;
@@ -64,7 +65,35 @@ const Resizer = {
             startTop = target.offsetTop;
         }
         const onMouseMove = (e) => {
+            if (!isResizing) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
 
+            let newWidth = startWidth;
+            let newHeight = startHeight;
+            let newLeft = startLeft;
+            let newTop = startTop;
+
+            console.log(handle)
+            if (handle.includes('e')) {
+                newWidth = startWidth + dx;
+            }
+            if (handle.includes('w')) {
+                newWidth = startWidth - dx;
+                newLeft = startLeft + dx;
+            }
+            if (handle.includes('s')) {
+                newHeight = startHeight + dy;
+            }
+            if (handle.includes('n')) {
+                newHeight = startHeight - dy;
+                newTop = startTop + dy;
+            }
+
+            target.style.width = newWidth + 'px';
+            target.style.height = newHeight + 'px';
+            target.style.left = newLeft + 'px';
+            target.style.top = newTop + 'px';
         }
         const onMouseUp = (e) => {
             if (!isResizing) return;
@@ -78,7 +107,8 @@ const Resizer = {
         }
      
         target.addEventListener('mousedown', onMouseDown);
-        target.addEventListener('mouseup', onMouseUp);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
         document.addEventListener('mousedown', cancelResize)
     }
 }
