@@ -40,6 +40,8 @@ const Resizer = {
         target.appendChild(w);
 
         let isResizing = false;
+        const MIN_WIDTH = 50;
+        const MIN_HEIGHT = 50;
         let handle;
         let startX;
         let startY;
@@ -74,7 +76,6 @@ const Resizer = {
             let newLeft = startLeft;
             let newTop = startTop;
 
-            console.log(handle)
             if (handle.includes('e')) {
                 newWidth = startWidth + dx;
             }
@@ -88,6 +89,20 @@ const Resizer = {
             if (handle.includes('n')) {
                 newHeight = startHeight - dy;
                 newTop = startTop + dy;
+            }
+
+            //clamp width and height values and lock position changing
+            if (newWidth < MIN_WIDTH) {
+                newWidth = MIN_WIDTH;
+                if (handle.includes('w')) {
+                    newLeft = startLeft + startWidth - MIN_WIDTH; 
+                }
+            }
+            if (newHeight < MIN_HEIGHT) {
+                newHeight = MIN_HEIGHT;
+                if (handle.includes('n')) {
+                    newTop = startTop + startHeight - MIN_HEIGHT;
+                }
             }
 
             target.style.width = newWidth + 'px';
