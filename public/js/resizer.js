@@ -2,7 +2,7 @@ const Resizer = {
     //tracks event listeners to be properly removed later
     _clickListeners: new Map(),
 
-    makeResizeable(target) {
+    enableResizing(target) {
         //Add resize handle elements to target
         ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].forEach(position => {
             const handle = document.createElement('div');
@@ -104,5 +104,33 @@ const Resizer = {
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
         document.addEventListener('mousedown', cancelResize)
+
+        this._clickListeners.set(target.id, {
+            target,
+            onMouseDown,
+            onMouseMove,
+            onMouseUp,
+            cancelResize
+        });
+    },
+
+    disableResizing(target_id) {
+        const listeners = this._clickListeners.get(target_id);
+        if (!listeners) return;
+        
+        const {target, onMouseDown, onMouseMove, onMouseUp, cancelResize} = listeners;
+
+        //looping backwards to avoid skipping children
+        for (let i = target.children.length - 1; i >= 0; i--) {
+            if (target.children[i].classList.contains('resize-handle')) {
+                target.children[i].remove();
+            }
+        }
+
+        target.removeEventListener('mousedown', onMouseDown);
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousedown', cancelResize);
+        this._clickListeners.delete(target.id);
     }
 }

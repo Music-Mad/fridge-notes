@@ -46,7 +46,7 @@ stickyPad.addEventListener('mousedown', async (e) => {
     const noteDom = StickyManager.create(null, selectedColor, e.clientX - 160, e.clientY, null, note.id);
 
     StickyManager.startDragging(note.id, e.clientX, e.clientY);
-    Resizer.makeResizeable(noteDom);
+    Resizer.enableResizing(noteDom);
 });
 
 document.addEventListener('dblclick', async (e) => {

@@ -6,7 +6,7 @@ async function loadObjects(board_id) {
     
     for (var i = 0; i < notes.length; i++) {
         note = StickyManager.create(notes[i].canvas, notes[i].color, notes[i].x_position, notes[i].y_position, notes[i].z_index, notes[i].id);
-        Resizer.makeResizeable(note);
+        Resizer.enableResizing(note);
     }
 };
 
