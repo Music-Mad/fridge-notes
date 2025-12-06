@@ -52,9 +52,16 @@ const Resizer = {
 
         const onMouseDown = (e) => {
             if (isResizing) return;
+            if (target.classList.contains('resizing')) {
+                if (!e.target.classList.contains('resize-handle')) {
+                    cancelResize();
+                    return;
+                }
+            }
+            e.stopPropagation();
             target.classList.add('resizing');
             if (!e.target.classList.contains('resize-handle')) return;
-
+       
             //get target handle
             isResizing = true;
             handle = e.target.className.split(' ')[1].replace('handle-', '');
@@ -115,9 +122,7 @@ const Resizer = {
             isResizing = false;
         }
         const cancelResize = (e) => {
-            if (!target.classList.contains('resizing')) return;
-            if (e.target.id != 'background') return;
-            
+            //if (!target.classList.contains('resizing')) return;
             target.classList.remove('resizing');
         }
      
