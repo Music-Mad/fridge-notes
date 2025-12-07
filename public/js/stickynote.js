@@ -10,7 +10,7 @@ const StickyManager = {
     //variable for note position clamping
     boundPadding: 10,
     //var for canvas line thickness
-    lineThickness: 3,
+    lineThickness: 5,
     //var to track resizing state. This is done to avoid saving the canvas many times while resizing
     isResizing: false,
     canvasResizeData: null,
