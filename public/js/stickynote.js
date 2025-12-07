@@ -45,6 +45,8 @@ const StickyManager = {
     //Forms canvas to dimensions of containing note. This is done so the canvas always matches the notes dimensions even when resized. 
     _fitCanvas(id) {
         const note = this.get(id);
+        if (!note) return;
+        const handle = note.querySelector('.handle');
         let canvas = note.querySelector('.note-canvas');
 
         //save data before resizing. Canvas data is lost if rapidly saved. Saving only once before resize avoids data loss. Using this instead of URL data to avoid breif invisble periods
@@ -54,10 +56,12 @@ const StickyManager = {
         }
 
         const targetWidth = note.offsetWidth;
-        const targetHeight = note.offsetHeight;
+        const targetHeight = note.offsetHeight - handle.offsetHeight;
         
         //return if dim values unchanged
         if (canvas.width === targetWidth && canvas.height === targetHeight) return;
+        console.log(canvas.width, targetWidth);
+        console.log(canvas.height, targetHeight)
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
