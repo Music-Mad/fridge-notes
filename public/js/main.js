@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     //Updates board if no changes are made within 3 seconds
     let hasChanges = false;
     let saveTimeout;
-    const SAVE_DELAY = 3000;
+    const SAVE_DELAY = 1000;
     const BACKUP_TIMER = 15000;
 
     function onStateChange() {

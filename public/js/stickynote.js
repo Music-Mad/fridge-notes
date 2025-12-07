@@ -11,6 +11,9 @@ const StickyManager = {
     boundPadding: 10,
     //var for canvas line thickness
     lineThickness: 3,
+    //var to track resizing state. This is done to avoid saving the canvas many times while resizing
+    isResizing: false,
+    canvasResizeData: null,
 
     //Calls callback when Manager makes changes
     _notifyChange() {
@@ -32,6 +35,45 @@ const StickyManager = {
 
         y = Math.max(headerHeight + this.boundPadding, Math.min(viewportHeight - noteHeight - this.boundPadding, y));
         return {x, y};
+    },
+
+    _onResizeEnd() {
+        this.isResizing = false;
+        this.canvasResizeData = null;
+    },
+
+    //Forms canvas to dimensions of containing note. This is done so the canvas always matches the notes dimensions even when resized. 
+    _fitCanvas(id) {
+        const note = this.get(id);
+        let canvas = note.querySelector('.note-canvas');
+
+        //save data before resizing. Canvas data is lost if rapidly saved. Saving only once before resize avoids data loss. Using this instead of URL data to avoid breif invisble periods
+        if (!this.isResizing) {
+            this.canvasResizeData = canvas.getContext('2d').getImageData(0,0, canvas.width, canvas.height);
+            this.isResizing = true;
+        }
+
+        const targetWidth = note.offsetWidth;
+        const targetHeight = note.offsetHeight;
+        
+        //return if dim values unchanged
+        if (canvas.width === targetWidth && canvas.height === targetHeight) return;
+
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        //load back in canvas data if it exists 
+        if (this.canvasResizeData) {
+            const ctx = canvas.getContext('2d');
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+
+            tempCanvas.width = this.canvasResizeData.width;
+            tempCanvas.height = this.canvasResizeData.height;
+            tempCtx.putImageData(this.canvasResizeData, 0, 0);
+
+            ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+        } 
     },
 
     onChange(callback) {
@@ -308,6 +350,14 @@ const StickyManager = {
         canvas.addEventListener('mousemove', onMouseMove);
         canvas.addEventListener('mouseup', onMouseUp);
         canvas.addEventListener('mouseleave', onMouseUp);
+
+        //observe to fit canvas to note dimensions if the size of the note ever changes
+        const resizeObserver = new ResizeObserver(() => {
+            this._fitCanvas(note_id);
+            clearTimeout(resizeObserver._timeout);
+            resizeObserver._timeout = setTimeout(() => this._onResizeEnd(), 100)
+        });
+        resizeObserver.observe(noteDom);
 
     },
 
