@@ -60,8 +60,6 @@ const StickyManager = {
         
         //return if dim values unchanged
         if (canvas.width === targetWidth && canvas.height === targetHeight) return;
-        console.log(canvas.width, targetWidth);
-        console.log(canvas.height, targetHeight)
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
@@ -84,7 +82,7 @@ const StickyManager = {
         this._changeCallback = callback;
     },
 
-    create(canvas_data, color, x_position, y_position, z_index, note_id) {
+    create(canvas_data, color, x_position, y_position, width, height, z_index, note_id) {
         if (this.get(note_id)) {
             return;
         }
@@ -119,11 +117,18 @@ const StickyManager = {
         noteDom.appendChild(canvas);
         document.body.appendChild(noteDom);
 
+        if (width) {
+            noteDom.style.width = `${width}px`
+        } 
+        if (height) {
+            noteDom.style.height = `${height}px`;
+        }
+
         //clamp position values befores setting note style
         let {x, y} = this._clampPos(x_position, y_position, noteDom);
         noteDom.style.left = `${x}px`;
         noteDom.style.top = `${y}px`;
-
+        
         //adjust canvas scaling to match parent
         canvas.width = noteDom.offsetWidth;
         canvas.height = noteDom.offsetHeight - handle.offsetHeight;
@@ -162,14 +167,14 @@ const StickyManager = {
         return dataURL;
     },
 
-    update(note_id, {color, x_position, y_position, z_index} = {}) {
+    update(note_id, {color, x_position, y_position, width, height, z_index} = {}) {
         const noteDom = this.get(note_id);
         if (noteDom == null) {
             return null;
         }
         
         if (color !== undefined) {
-            noteDom.style.backgroundColor = `{color}`;
+            noteDom.style.backgroundColor = `${color}`;
         }
         if (x_position !== undefined)
         {
@@ -178,6 +183,12 @@ const StickyManager = {
         if (y_position !== undefined) {
             noteDom.style.top = y_position + 'px';
         } 
+        if (width !== undefined) {
+            noteDom.style.width = `${width}px`
+        }
+        if (height !== undefined) {
+            noteDom.style.height = `${height}px`
+        }
         if (z_index !== undefined) {
             noteDom.style.zIndex = z_index;
         } 

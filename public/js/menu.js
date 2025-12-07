@@ -43,7 +43,7 @@ pencilSelector.addEventListener('click', (e) => {
 const stickyPad = document.getElementById('sticky-pad');
 stickyPad.addEventListener('mousedown', async (e) => {
     const note = await NotesAPI.create(null, selectedColor, e.clientX - 180, e.clientY, 200, 200, 1, boardCode);
-    const noteDom = StickyManager.create(null, selectedColor, e.clientX - 160, e.clientY, null, note.id);
+    const noteDom = StickyManager.create(null, selectedColor, e.clientX - 160, e.clientY, null, null, null, note.id);
 
     StickyManager.startDragging(note.id, e.clientX, e.clientY);
     Resizer.enableResizing(noteDom);
