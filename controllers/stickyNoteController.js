@@ -28,7 +28,7 @@ function getFromBoardId(board_id) {
     }
 };
 
-function update(note_id, { canvas, color, x_position, y_position, z_index, board_id } = {}) {
+function update(note_id, { canvas, color, x_position, y_position, width, height, z_index, board_id } = {}) {
     try {
         //For each param that is valid, add the item to values and the appropriate 'field' statement for the sql update
         const fields = [];
@@ -51,6 +51,14 @@ function update(note_id, { canvas, color, x_position, y_position, z_index, board
             fields.push('y_position = ?');
             values.push(y_position);
         } 
+        if (width !== undefined) {
+            fields.push('width = ?');
+            values.push(width);
+        }
+        if (height !== undefined) {
+            fields.push('height = ?');
+            values.push(height);
+        }
         if (z_index !== undefined) {
             fields.push('z_index = ?');
             values.push(z_index);
@@ -80,9 +88,9 @@ function update(note_id, { canvas, color, x_position, y_position, z_index, board
     }
 };
 
-function create(canvas, color, x_position, y_position, z_index, board_id) {
+function create(canvas, color, x_position, y_position, width, height, z_index, board_id) {
     try {
-        const info = db.prepare('INSERT INTO sticky_notes (board_id, canvas, color, x_position, y_position, z_index) VALUES (?, ?, ?, ?, ?, ?)').run(board_id, canvas, color, x_position, y_position, z_index);        
+        const info = db.prepare('INSERT INTO sticky_notes (board_id, canvas, color, x_position, y_position, width, height, z_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(board_id, canvas, color, x_position, y_position, z_index);        
         const note = get(info.lastInsertRowid).data;
         return { status: 201, data: note};
     } catch (error) {

@@ -33,6 +33,8 @@ function createTable(db) {
       color TEXT NOT NULL,
       x_position REAL NOT NULL,
       y_position REAL NOT NULL,
+      width INTEGER,
+      height INTEGER,
       z_index INTEGER DEFAULT 0,
       FOREIGN KEY (board_id) REFERENCES boards(id)
     );
