@@ -22,6 +22,8 @@ async function saveBoard(board_id) {
             color: getComputedStyle(notes[i]).backgroundColor,
             x_position: parseInt(notes[i].style.left), 
             y_position: parseInt(notes[i].style.top),
+            width: parseInt(notes[i].offsetWidth),
+            height: parseInt(notes[i].offsetHeight),
             z_index: notes[i].style.zIndex
         });
     }

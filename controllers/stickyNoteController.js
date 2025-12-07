@@ -90,7 +90,7 @@ function update(note_id, { canvas, color, x_position, y_position, width, height,
 
 function create(canvas, color, x_position, y_position, width, height, z_index, board_id) {
     try {
-        const info = db.prepare('INSERT INTO sticky_notes (board_id, canvas, color, x_position, y_position, width, height, z_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(board_id, canvas, color, x_position, y_position, z_index);        
+        const info = db.prepare('INSERT INTO sticky_notes (board_id, canvas, color, x_position, y_position, width, height, z_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(board_id, canvas, color, x_position, y_position, width, height, z_index);        
         const note = get(info.lastInsertRowid).data;
         return { status: 201, data: note};
     } catch (error) {

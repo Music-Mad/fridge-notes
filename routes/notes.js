@@ -10,17 +10,17 @@ router.get('/notes/:note_id', (req, res) => {
 
 //create note API endpoint
 router.post('/notes', (req, res) => {
-    const {canvas, color, x_position, y_position, z_index, board_id} = req.body;
-    const { status, data} = notesController.create(canvas, color, x_position, y_position, z_index, board_id);
+    const {canvas, color, x_position, y_position, width, height, z_index, board_id} = req.body;
+    const { status, data} = notesController.create(canvas, color, x_position, y_position, width, height, z_index, board_id);
     res.status(status).json(data);
 });
 
 router.put('/notes/:note_id', (req, res) => {
     try {
         const note_id = req.params.note_id;
-        const { canvas, color, x_position, y_position, z_index, board_id} = req.body;
+        const { canvas, color, x_position, y_position, width, height, z_index, board_id} = req.body;
         
-        const {status, data} = notesController.update(note_id, {canvas, color, x_position, y_position, z_index, board_id});
+        const {status, data} = notesController.update(note_id, {canvas, color, x_position, y_position, width, height, z_index, board_id});
 
         if (status == 400) {
             return res.status(400).json({

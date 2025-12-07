@@ -11,7 +11,7 @@ const NotesAPI = {
         return response.json();
     }, 
 
-    async create(canvas, color, x_position, y_position, z_index, board_id) {
+    async create(canvas, color, x_position, y_position, width, height, z_index, board_id) {
         const response = await fetch(this.baseURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -20,6 +20,8 @@ const NotesAPI = {
                 color: color,
                 x_position: x_position,
                 y_position: y_position,
+                width: width,
+                height: height,
                 z_index: z_index,
                 board_id: board_id
             })
