@@ -260,23 +260,20 @@ header {
     position: absolute;
     width: 200px;
     height: 100px;
+    top: 100px;
 }
 .magnet .handle {
-    background-color: rgba(0,0,0,0.3);
     cursor: grab;
     width: inherit;
     height: var(--handle-height);
     border-radius: 3px 3px 0 0;
 }
-.magnet textarea {
-    background-color: rgba(0,0,0,0);
-    border-style: solid dotted dotted dotted;
-    border-width: 2px;
-    border-color: rgba(0,0,0,0.3);
+.magnet .editable-area {
     width: inherit;
     height: calc(100% - var(--handle-height));
     font-family: 'FridgeMagnet', sans-serif;
 }
+
 .resizing {
       border-color: #4f5fd88f;
       border-style: solid;
