@@ -46,22 +46,22 @@ const MagnetManager = {
 
         const magnet = document.createElement('div');
         const handle = document.createElement('div');
-        const textarea = document.createElement('textarea');
+        const editableArea = document.createElement('div');
 
         magnet.id = `${magnet_id}`;
         magnet.className = 'magnet';
         handle.className = 'handle';
+        editableArea.className = 'editable-area';
 
-        magnet.style.width = '200px';
-        magnet.style.height = '100px';
+        editableArea.contentEditable = 'true';
 
         magnet.appendChild(handle);
-        magnet.appendChild(textarea);
+        magnet.appendChild(editableArea);
         document.body.appendChild(magnet);
 
         magnet.style.left = `${x}px`;
         magnet.style.top = `${y}px`;
-        textarea.value = content;
+        editableArea.innerText = content;
 
         this.enableDragging(magnet_id);
         this._notifyChange();
