@@ -12,8 +12,8 @@ const Resizer = {
         });
 
         let isResizing = false;
-        const MIN_WIDTH = 50;
-        const MIN_HEIGHT = 50;
+        const MIN_WIDTH = 25;
+        const MIN_HEIGHT = 25;
         let handle;
         let startX;
         let startY;
