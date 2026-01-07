@@ -119,7 +119,6 @@ const MagnetManager = {
         const onMouseDown = (e) => {
             isDragging = true;
             handle.style.cursor = 'grabbing';
-            target.style.boxShadow = '3px 18px 16px rgba(0,0,0,0.2)';
 
             //grab offset for grab consistency
             offsetX = e.clientX - target.offsetLeft;
@@ -151,7 +150,6 @@ const MagnetManager = {
         const onMouseUp = (e) => {
             if (!isDragging) return;
             handle.style.cursor = 'grab';
-            target.style.boxShadow = '0 6px 16px rgba(0,0,0,0.2)';
             isDragging = false;
 
             //return trash can to original state on deletion

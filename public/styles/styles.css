@@ -293,46 +293,46 @@ header {
     opacity: 1;
 }
 .handle-nw {
-    top: -4px;
-    left: -4px;
+    top: -6px;
+    left: -6px;
     cursor: nwse-resize;
 }
 .handle-ne {
-    top: -4px;
-    right: -4px;
+    top: -6px;
+    right: -6px;
     cursor: nesw-resize;
 }
 .handle-sw {
-    bottom: -4px;
-    left: -4px;
+    bottom: -6px;
+    left: -6px;
     cursor: nesw-resize;
 }
 .handle-se {
-    bottom: -4px;
-    right: -4px;
+    bottom: -6px;
+    right: -6px;
     cursor: nwse-resize;
 }
 .handle-n {
-    top: -4px;
+    top: -6px;
     left: 50%;
     transform: translateX(-50%);
     cursor: ns-resize;
 }
 .handle-s {
-    bottom: -4px;
+    bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
     cursor: ns-resize;
 }
 .handle-w {
     top: 50%;
-    left: -4px;
+    left: -6px;
     transform: translateY(-50%);
     cursor: ew-resize;
 }
 .handle-e {
     top: 50%;
-    right: -4px;
+    right: -6px;
     transform: translateY(-50%);
     cursor: ew-resize;
 }
