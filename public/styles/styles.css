@@ -271,6 +271,8 @@ header {
     height: calc(100% - var(--handle-height));
     font-family: 'FridgeMagnet', sans-serif;
     outline: none;
+    font-size: 2.4rem;
+    letter-spacing: 0.5rem;
 }
 
 .resizing {

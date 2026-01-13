@@ -50,7 +50,7 @@ stickyPad.addEventListener('mousedown', async (e) => {
 });
 
 document.addEventListener('dblclick', async (e) => {
-    const magnet = MagnetManager.create(e.clientX, e.clientY, 'Start Typing Here...', 1);
+    const magnet = MagnetManager.create(e.clientX, e.clientY, '', 1);
     Resizer.enableResizing(magnet);
 });
 

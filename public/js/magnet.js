@@ -3,6 +3,7 @@ const MagnetManager = {
     _changeCallback: null,
     //tracks event listeners so they can be properly removed
     _dragListeners: new Map(),
+    _textListeners: new Map(),
     //variable for note position clamping
     boundPadding: 10,
 
@@ -65,6 +66,121 @@ const MagnetManager = {
 
         this.enableDragging(magnet_id);
         this._notifyChange();
+
+
+        let previousText = editableArea.innerText;
+        let characterColors = [];
+        const colors = [
+            '#d82c2cff', '#1a55d3ff', 
+            '#5dc249ff', '#aa5fcaff', 
+            '#fcdd30ff', '#fd8d60ff', 
+        ];
+
+        function getRandomColor() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function colorizeLatestCharacter() {
+            const sel = window.getSelection();
+            const range = sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
+            
+            // Calculate absolute cursor position
+            let cursorPos = 0;
+            if (range) {
+                const preCaretRange = range.cloneRange();
+                preCaretRange.selectNodeContents(editableArea);
+                preCaretRange.setEnd(range.endContainer, range.endOffset);
+                cursorPos = preCaretRange.toString().length;
+            }
+            
+            
+            const text = editableArea.textContent;
+            editableArea.innerHTML = '';
+            
+            //Update color tracking array after text edit
+            //Check if character was added
+            if (text.length > previousText.length) {
+                tempArr = [
+                    ...characterColors.slice(0, cursorPos),
+                    getRandomColor(),
+                    ...characterColors.slice(cursorPos)
+                ];
+                characterColors = tempArr; 
+            }
+            //if character was removed
+            if (text.length < previousText.length) {
+                tempArr = [
+                    ...characterColors.slice(0, cursorPos),
+                    ...characterColors.slice(cursorPos + 1)
+                ];
+                characterColors = tempArr;
+            }
+            //if character was replaced
+            if (text.length == previousText.length) {
+                tempArr = [
+                    ...characterColors.slice(0, cursorPos),
+                    getRandomColor(),
+                    ...characterColors.slice(cursorPos + 1)
+                ];
+                characterColors = tempArr;
+            }
+            
+            //Rewrite the text content using characterColors[]
+            for (let i = 0; i < Math.max(text.length, previousText.length); i++) {
+                //if (text[i] === previousText[i]) return;
+                const span = document.createElement('span');
+                span.style.color = characterColors[i];
+                span.textContent = text[i];
+                editableArea.appendChild(span);
+            }
+
+            //Set the cursor back to its original position
+            if (range) {
+                const newRange = document.createRange();
+                let charCount = 0;
+                let targetNode = null;
+                let targetOffset = 0;
+
+                //Loop through span elements to find target position
+                for (let span of editableArea.childNodes) {
+                    const textNode = span.firstChild;
+                    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+                        const textLength = textNode.length;
+                        if (charCount + textLength >= cursorPos) {
+                            targetNode = textNode;
+                            targetOffset = cursorPos - charCount;
+                            break;
+                        }
+                        charCount += textLength;
+                    }
+                }
+
+                if (targetNode) {
+                    newRange.setStart(targetNode, targetOffset);
+                    newRange.setEnd(targetNode, targetOffset)
+                    sel.removeAllRanges();
+                    sel.addRange(newRange);
+                }
+
+            }
+
+            previousText = text;
+            /*
+            if (range && editableArea.childNodes.length > 0) {
+                const newRange = document.createRange();
+                const targetNode = editableArea.childNodes[Math.min(cursorPos, editableArea.childNodes.length - 1)];
+                
+                if (targetNode && targetNode.firstChild) {
+                    newRange.setStart(targetNode.firstChild, 1);
+                    newRange.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(newRange);
+                }
+            }*/
+        }
+
+        magnet.addEventListener('input', colorizeLatestCharacter);
+
         return magnet;
     },
 
