@@ -68,7 +68,7 @@ const MagnetManager = {
         this._notifyChange();
 
 
-        let previousText = editableArea.innerText;
+        let previousText = editableArea.textContent;
         let characterColors = [];
         const colors = [
             '#d82c2cff', '#1a55d3ff', 
@@ -92,9 +92,8 @@ const MagnetManager = {
                 preCaretRange.setEnd(range.endContainer, range.endOffset);
                 cursorPos = preCaretRange.toString().length;
             }
-            
-            
-            const text = editableArea.textContent;
+                        
+            let text = editableArea.innerText;
             editableArea.innerHTML = '';
             
             //Update color tracking array after text edit
@@ -124,14 +123,26 @@ const MagnetManager = {
                 ];
                 characterColors = tempArr;
             }
-            
-            //Rewrite the text content using characterColors[]
-            for (let i = 0; i < Math.max(text.length, previousText.length); i++) {
-                //if (text[i] === previousText[i]) return;
-                const span = document.createElement('span');
-                span.style.color = characterColors[i];
-                span.textContent = text[i];
-                editableArea.appendChild(span);
+
+            const hasTrailingNewLine = text[text.length - 1] === '\n';
+            if ( hasTrailingNewLine ) {
+                text = text.slice(0, -1);
+            }
+
+            //Rewrite text with colors
+            for (let i = 0; i < text.length; i++) {
+                if (text[i] === '\n') {
+                    editableArea.appendChild(document.createElement('br'));
+                } else {
+                    const span = document.createElement('span');
+                    span.style.color = characterColors[i];
+                    span.textContent = text[i];
+                    editableArea.appendChild(span);
+                }
+            }
+            //Additional line break at end to force browser render
+            if (hasTrailingNewLine) {
+                editableArea.appendChild(document.createElement('br'));
             }
 
             //Set the cursor back to its original position
@@ -163,20 +174,7 @@ const MagnetManager = {
                 }
 
             }
-
             previousText = text;
-            /*
-            if (range && editableArea.childNodes.length > 0) {
-                const newRange = document.createRange();
-                const targetNode = editableArea.childNodes[Math.min(cursorPos, editableArea.childNodes.length - 1)];
-                
-                if (targetNode && targetNode.firstChild) {
-                    newRange.setStart(targetNode.firstChild, 1);
-                    newRange.collapse(true);
-                    sel.removeAllRanges();
-                    sel.addRange(newRange);
-                }
-            }*/
         }
 
         magnet.addEventListener('input', colorizeLatestCharacter);
