@@ -1,6 +1,8 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
     console.log('Page loaded!');
+    //force document to use <br> for line break detection
+    document.execCommand('defaultParagraphSeparator', false, 'br');
     //Updates board if no changes are made within 3 seconds
     let hasChanges = false;
     let saveTimeout;
